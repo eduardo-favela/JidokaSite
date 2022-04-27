@@ -1,0 +1,12 @@
+.navbar {
+  position: absolute;
+  width: 100%;
+}
+
+.nav-item {
+  border-left:solid 0.1px;
+}
+
+fa-icon{
+  font-size: large;
+}

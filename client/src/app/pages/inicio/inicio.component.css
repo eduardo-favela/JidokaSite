@@ -1,0 +1,24 @@
+/* ngb-carousel {
+  max-width: fit-content;
+}
+ */
+.carousel,
+.carousel-inner,
+.carousel-inner .carousel-item {
+  height: 100%;
+  top: 0;
+}
+
+/* *{
+  margin: 0; padding:0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+} */
+
+/* html, body{
+  left:0px;
+  display: grid;
+  height: 200vh;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(211,244,10,1) 0%, rgba(197,255,170,0.804359243697479) 35%, rgba(0,212,255,1) 100%);
+} */
