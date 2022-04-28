@@ -4,9 +4,13 @@
  */
 .carousel,
 .carousel-inner,
-.carousel-inner .carousel-item {
+.carousel-inner .carousel-item, .carouselImg {
   height: 100%;
   top: 0;
+}
+
+.carousel-control-prev {
+  z-index:auto !important;
 }
 
 /* *{

@@ -1,12 +1,38 @@
 .navbar {
-  position: absolute;
   width: 100%;
 }
 
 .nav-item {
-  border-left:solid 0.1px;
+  border-left: solid 0.1px;
 }
 
-fa-icon{
+fa-icon {
   font-size: large;
+}
+
+.container-slider {
+  height: 100%;
+}
+
+/* section {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+section .contain {
+  display: flex;
+}
+
+.reveal {
+  position: relative;
+  transform: translateY(150px);
+  opacity: 0;
+  transition: 1s all ease;
+}
+
+.reveal.active {
+  transform: translateY(0);
+  opacity: 1;
 }

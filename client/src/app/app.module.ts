@@ -9,14 +9,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ResidencialComponent } from './pages/paneles-solares/residencial/residencial.component';
-import { ResidencialComponent as ResidencialComponentTS } from './pages/termosolares/residencial/residencial.component';
 import { ComercialComponent } from './pages/paneles-solares/comercial/comercial.component';
-import { ComercialComponent as ComercialComponentTS } from './pages/termosolares/comercial/comercial.component';
 import { IndustrialComponent } from './pages/paneles-solares/industrial/industrial.component';
-import { IndustrialComponent as IndustrialComponentTS } from './pages/termosolares/industrial/industrial.component';
 import { AutomatizacionComponent } from './pages/automatizacion/automatizacion.component';
 import { ContactoComponent } from './pages/contacto/contacto.component';
 import { SocialMediaComponent } from './components/social-media/social-media.component';
+import { LoginComponent } from './components/login/login.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { ResidencialTsComponent } from './pages/termosolares/residencial-ts/residencial-ts.component';
+import { ComercialTsComponent } from './pages/termosolares/comercial-ts/comercial-ts.component';
+import { IndustrialTsComponent } from './pages/termosolares/industrial-ts/industrial-ts.component';
 
 @NgModule({
   declarations: [
@@ -28,9 +30,12 @@ import { SocialMediaComponent } from './components/social-media/social-media.com
     AutomatizacionComponent,
     ContactoComponent,
     SocialMediaComponent,
-    ResidencialComponentTS,
-    ComercialComponentTS,
-    IndustrialComponentTS
+    LoginComponent,
+    AdminComponent,
+    ResidencialTsComponent,
+    ComercialTsComponent,
+    IndustrialTsComponent,
+
   ],
   imports: [
     BrowserModule,

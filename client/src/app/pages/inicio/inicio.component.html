@@ -12,7 +12,7 @@
   <div class="carousel-inner">
     <div *ngFor="let img of images; let first= first" [class]="first ?
       'carousel-item active' : 'carousel-item'">
-      <img [src]=img.url class="d-block w-100" alt="img.header">
+      <img [src]=img.url class="d-block w-100 carouselImg" alt="img.header">
       <div class="carousel-caption d-none d-md-block">
         <h5>First slide label</h5>
         <p>Some representative placeholder content for the first slide.</p>
@@ -30,5 +30,3 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-
-<app-social-media></app-social-media>

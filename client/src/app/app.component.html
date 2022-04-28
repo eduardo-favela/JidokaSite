@@ -1,7 +1,7 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">
-      <img src="../../../assets/img/logo-jdk.PNG" alt="" width="100" height="50"
+    <a class="navbar-brand" (click)="scroll(top)" routerLink="/">
+      <img src="../../../assets/img/logo-jdk.PNG" alt="" width="120" height="70"
         class="d-inline-block align-text-top">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -10,33 +10,21 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdown"
-            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active btn" (click)="scroll(paneles)">
             Paneles solares
             <fa-icon [icon]="solarIcon"></fa-icon>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" routerLink="paneles/residencial">Residencial</a></li>
-            <li><a class="dropdown-item" routerLink="paneles/comercial">Comercial</a></li>
-            <li><a class="dropdown-item" routerLink="paneles/industrial">Industrial</a></li>
-          </ul>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdown"
-            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="nav-item">
+          <a class="nav-link active btn" (click)="scroll(termosolares)">
             Termosolares
             <fa-icon [icon]="termosolarIcon"></fa-icon>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" routerLink="termosolares/residencial">Residencial</a></li>
-            <li><a class="dropdown-item" routerLink="termosolares/comercial">Comercial</a></li>
-            <li><a class="dropdown-item" routerLink="termosolares/industrial">Industrial</a></li>
-          </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" routerLink="automatizacion">
+          <a class="nav-link active btn" (click)="scroll(automatizacion)">
             Automatización
             <fa-icon [icon]="automationIcon"></fa-icon>
           </a>
@@ -47,10 +35,60 @@
             <fa-icon [icon]="contactIcon"></fa-icon>
           </a>
         </li>
+        <ng-template *ngIf="[sessionStorage.getItem('user')];">
+          <li class="nav-item">
+            <a class="nav-link active" routerLink="administracion">
+              Administrar página
+              <fa-icon [icon]="adminIcon"></fa-icon>
+            </a>
+          </li>
+        </ng-template>
       </ul>
+      <ng-template *ngIf="[sessionStorage.getItem('user')];">
+        <div class="col-md-2">
+          <button class="btn btn-danger form-control">Cerrar sesión</button>
+        </div>
+      </ng-template>
     </div>
   </div>
 </nav>
+<div class="container-slider" #top>
+  <app-inicio></app-inicio>
+</div>
+<section class="d-flex justify-content-center" #paneles>
+  <div class="contain reveal">
+    <app-residencial></app-residencial>
+  </div>
+</section>
+<section class="d-flex justify-content-center">
+  <div class="contain reveal">
+    <app-comercial></app-comercial>
+  </div>
+</section>
+<section class="d-flex justify-content-center">
+  <div class="contain reveal">
+    <app-industrial></app-industrial>
+  </div>
+</section>
+<section class="d-flex justify-content-center" #termosolares>
+  <div class="contain reveal">
+    <app-residencial-ts></app-residencial-ts>
+  </div>
+</section>
+<section class="d-flex justify-content-center">
+  <div class="contain reveal">
+    <app-comercial-ts></app-comercial-ts>
+  </div>
+</section>
+<section class="d-flex justify-content-center">
+  <div class="contain reveal">
+    <app-industrial-ts></app-industrial-ts>
+  </div>
+</section>
+<section class="d-flex justify-content-center" #automatizacion>
+  <div class="contain reveal">
+    <app-automatizacion></app-automatizacion>
+  </div>
+</section>
 
-<router-outlet>
-</router-outlet>
+<app-social-media></app-social-media>

@@ -1,8 +1,24 @@
-<div class="container-fluid p-5">
-  <div class="row p-5">
-    <div class="col-md-12">
-      <p>automatizacion works!</p>
+<div class="container-fluid">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-6 pt-5 d-flex justify-content-center">
+      <img class="imgHeader" src="../assets/img/automatizacion/automatizacionHeader.jpg"
+        alt="PanelesHeader">
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-4 text-center">
+      <hr>
+      <h2>Automatización</h2>
+      <hr>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8 col-sm-8 pt-3">
+      <div class="hstack gap-3">
+        <div class="bg-light border">
+          <img class="automicon m-1" *ngFor="let img of imagesAutom" [src]="img.name" alt={{img.name}}>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-<app-social-media></app-social-media>
