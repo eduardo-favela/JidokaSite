@@ -111,3 +111,10 @@
   background: #00ACEE;
   color: #fff;
 }
+
+.container .blogger span,
+.container .blogger .tooltip,
+.container .blogger .tooltip:before{
+  background: #FF5722;
+  color: #fff;
+}

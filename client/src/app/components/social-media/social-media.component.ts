@@ -4,6 +4,7 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { faTiktok } from '@fortawesome/free-brands-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faBloggerB } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-social-media',
@@ -19,6 +20,7 @@ export class SocialMediaComponent implements OnInit {
   waIcon = faWhatsapp
   tiktokIcon = faTiktok
   twitIcon = faTwitter
+  blogIcon = faBloggerB
 
   ngOnInit(): void {
   }

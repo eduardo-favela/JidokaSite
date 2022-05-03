@@ -19,6 +19,10 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { ResidencialTsComponent } from './pages/termosolares/residencial-ts/residencial-ts.component';
 import { ComercialTsComponent } from './pages/termosolares/comercial-ts/comercial-ts.component';
 import { IndustrialTsComponent } from './pages/termosolares/industrial-ts/industrial-ts.component';
+import { ReCaptchaModule } from 'angular-recaptcha3';
+import { HttpClientModule } from '@angular/common/http'
+import * as $ from 'jquery'
+import * as bootstrap from "bootstrap";
 
 @NgModule({
   declarations: [
@@ -44,7 +48,17 @@ import { IndustrialTsComponent } from './pages/termosolares/industrial-ts/indust
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ReCaptchaModule.forRoot({
+      invisible: {
+        sitekey: '6LcU77AfAAAAAKeLpHegnsFPrqcI6ZQZ4kU56K8g',
+      },
+      normal: {
+        sitekey: '6LcU77AfAAAAAKeLpHegnsFPrqcI6ZQZ4kU56K8g',
+      },
+      language: 'en'
+    }),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

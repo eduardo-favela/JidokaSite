@@ -1,0 +1,33 @@
+img {
+  width: 100%;
+  height: 70vh;
+}
+
+h2 {
+  font-family: Andale Mono, monospace;
+}
+
+.imgHeader {
+  width: 20vw;
+  height: 20vw;
+  border-radius: 50%;
+  border: solid 6px #44b84c;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+textarea {
+  height: 100px !important;
+}
+
+fa-icon {
+  margin-right: 4px;
+}
+
+.informacion {
+  margin-top: 10%;
+}
