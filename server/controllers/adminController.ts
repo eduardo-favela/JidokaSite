@@ -1,0 +1,126 @@
+import { Request, Response } from 'express'
+import fs from 'fs'
+import db from '../database'
+import path from 'path'
+
+
+class AdminController {
+
+    public async setSliderImg(req: Request, res: Response) {
+        let base64Data = req.body.img.replace(/^data:image\/jpeg;base64,/, "");
+        const date = new Date()
+        const imgTitle = 'slider-' + Math.floor(Math.random() * date.getTime());
+        const imgPath = `${__dirname}/../../assets/img/carrusel/${imgTitle}.${req.body.imgType}`
+        const buffer = Buffer.from(base64Data, "base64");
+        fs.writeFileSync(imgPath, buffer);
+        await db.query(`INSERT INTO imagenes SET nombre = ?;`, imgPath, async (err: any, result: string | any[], fields: any) => {
+            if (err) throw err
+            let resultado: any = result;
+            await db.query(`INSERT INTO posts SET titulo = ?, descripcion = ?, imagen_idimagen = ?, tipo = 1, producto = 1;`,
+                [req.body.titulo, req.body.desc, resultado.insertId],
+                function (err: any, result: string | any[], fields: any) {
+                    if (err) throw err
+                    res.json(true)
+                })
+        })
+    }
+
+    public async getSilders(req: Request, res: Response) {
+        let sliders = await db.query(`SELECT idcarruselImg AS id, titulo, descripcion AS 'desc', nombre AS imgPath, idimagen AS imgId
+        FROM posts
+        INNER JOIN imagenes ON posts.imagen_idimagen = imagenes.idimagen
+        WHERE tipo = 1;`);
+
+        sliders.forEach(function (slider: any) {
+            let imagesPath = path.join(slider.imgPath)
+            let bitmap = fs.readFileSync(imagesPath, 'base64');
+            slider.img = bitmap
+        });
+
+        res.json(sliders);
+    }
+
+    public async getCards(req: Request, res: Response) {
+        let cards = await db.query(`SELECT idcarruselImg, titulo, descripcion AS 'desc', nombre AS imgPath, idimagen AS imgId
+        FROM posts
+        INNER JOIN imagenes ON posts.imagen_idimagen = imagenes.idimagen
+        INNER JOIN productos ON posts.producto = productos.id_producto
+        INNER JOIN post_has_tipo_aplicacion ON post_has_tipo_aplicacion.post_hta_idpost = posts.idcarruselImg
+        INNER JOIN tiposaplicaciones ON post_has_tipo_aplicacion.post_hta_idtipo = tiposaplicaciones.id_tipos_aplicaciones
+        WHERE posts.tipo = 3 AND tiposaplicaciones.id_tipos_aplicaciones = ? AND posts.producto = ?;`, [req.body.tipo, req.body.producto]);
+
+        cards.forEach(function (slider: any) {
+            let imagesPath = path.join(slider.imgPath)
+            let bitmap = fs.readFileSync(imagesPath, 'base64');
+            slider.img = bitmap
+        });
+
+        res.json(cards[0]);
+    }
+
+    public async getCardsTable(req: Request, res: Response) {
+        let cards = await db.query(`SELECT idcarruselImg, titulo, descripcion AS 'desc', nombre AS imgPath, idimagen AS imgId,
+        tiposaplicaciones.id_tipos_aplicaciones, tiposaplicaciones.tipo
+        FROM posts
+        INNER JOIN imagenes ON posts.imagen_idimagen = imagenes.idimagen
+        INNER JOIN productos ON posts.producto = productos.id_producto
+        INNER JOIN post_has_tipo_aplicacion ON post_has_tipo_aplicacion.post_hta_idpost = posts.idcarruselImg
+        INNER JOIN tiposaplicaciones ON post_has_tipo_aplicacion.post_hta_idtipo = tiposaplicaciones.id_tipos_aplicaciones
+        WHERE posts.tipo = 3 AND posts.producto = ?;`, [req.body.producto]);
+
+        cards.forEach(function (slider: any) {
+            let imagesPath = path.join(slider.imgPath)
+            let bitmap = fs.readFileSync(imagesPath, 'base64');
+            slider.img = bitmap
+        });
+
+        res.json(cards);
+    }
+
+    public async deleteSlider(req: Request, res: Response) {
+        await db.query(`DELETE FROM posts WHERE idcarruselImg = ?;`, req.body.idSlider)
+        await db.query(`DELETE FROM imagenes WHERE idimagen = ?;`, req.body.imgId)
+        fs.rm(path.join(req.body.imgPath), function (err) {
+            if (err) throw err;
+            else { res.json(true) }
+        })
+    }
+
+    public async updateSlider(req: Request, res: Response) {
+        await db.query(`UPDATE posts SET titulo = ?, descripcion = ? WHERE idcarruselImg = ?;`,
+            [req.body.titulo, req.body.desc, req.body.id], async (err: any, result: string | any[], fields: any) => {
+                if (err) throw err
+                res.json(true);
+            })
+    }
+
+    public async updateCard(req: Request, res: Response) {
+
+        if (req.body.changeImg) {
+
+            let imgAntPath = await db.query(`SELECT * FROM imagenes WHERE idimagen = ?;`, [req.body.imgIdAnt]) 
+            fs.unlinkSync(path.join(imgAntPath[0].nombre))
+
+            let base64Data = req.body.img.replace(/^data:image\/jpeg;base64,/, "");
+            const imgTitle = 'img-' + req.body.tipo;
+            const imgPath = `${__dirname}/../../assets/img/cards/${imgTitle}.${req.body.imgType}`
+            const buffer = Buffer.from(base64Data, "base64");
+            fs.writeFileSync(imgPath, buffer);
+            await db.query(`UPDATE posts SET titulo = ?, descripcion = ? WHERE idcarruselImg = ?;`,
+            [req.body.titulo, req.body.desc, req.body.idCard], async (err: any, result: string | any[], fields: any)=>{
+                if (err) throw err;
+                res.json(true)
+            })
+        }
+        else {
+            await db.query(`UPDATE posts SET titulo = ?, descripcion = ? WHERE idcarruselImg = ?;`,
+                [req.body.titulo, req.body.desc, req.body.idCard], async (err: any, result: string | any[], fields: any) => {
+                    if (err) throw err
+                    res.json(true);
+                })
+        }
+    }
+}
+
+const adminController = new AdminController()
+export default adminController

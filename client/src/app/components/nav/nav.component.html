@@ -1,0 +1,56 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" (click)="scroll('top')" routerLink="/">
+      <img src="../../../assets/img/logo-jdk.PNG" alt="" width="120" height="70"
+        class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarNav" aria-controls="navbarNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active btn" (click)="scroll('paneles')">
+            Paneles solares
+            <fa-icon [icon]="solarIcon"></fa-icon>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active btn" (click)="scroll('termosolares')">
+            Termosolares
+            <fa-icon [icon]="termosolarIcon"></fa-icon>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active btn" (click)="scroll('automatizacion')">
+            Automatización
+            <fa-icon [icon]="automationIcon"></fa-icon>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active btn" (click)="scroll('casosExito')">
+            Casos de éxito
+            <fa-icon [icon]="casosIcon"></fa-icon>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active btn" (click)="scroll('contacto')">
+            Contacto
+            <fa-icon [icon]="contactIcon"></fa-icon>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="[sessionStorage.getItem('user')].toString()!=''&&[sessionStorage.getItem('user')]!=null;">
+          <a class="nav-link active" routerLink="/admin">
+            Administrar página
+            <fa-icon [icon]="adminIcon"></fa-icon>
+          </a>
+        </li>
+      </ul>
+      <div class="col-md-2" *ngIf="[sessionStorage.getItem('user')].toString()!=''&&[sessionStorage.getItem('user')]!=null;">
+        <button class="btn btn-danger form-control" (click)="cerrarSesion()">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</nav>

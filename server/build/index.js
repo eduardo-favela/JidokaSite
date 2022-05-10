@@ -9,6 +9,7 @@ const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const loginRoutes_1 = __importDefault(require("./routes/loginRoutes"));
 const contactoRoutes_1 = __importDefault(require("./routes/contactoRoutes"));
+const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -27,6 +28,7 @@ class Server {
     routes() {
         this.app.use('/api/login', loginRoutes_1.default);
         this.app.use('/api/contacto', contactoRoutes_1.default);
+        this.app.use('/api/admin', adminRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {

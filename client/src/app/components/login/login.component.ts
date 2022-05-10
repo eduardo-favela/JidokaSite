@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,7 @@ import { LoginService } from '../../services/login.service'
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private loginService : LoginService) { }
+  constructor(private loginService : LoginService, private router: Router) { }
 
   usuario : any = {
 
@@ -16,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   loading = false;
   invalidLogin = false;
+  public sessionStorage = sessionStorage;
 
   ngOnInit(): void {
   }
@@ -28,6 +30,8 @@ export class LoginComponent implements OnInit {
           if (res) {
             this.loading = false
             this.invalidLogin=false
+            sessionStorage.setItem('user','user')
+            this.router.navigate(['/'])
           }
           else {
             this.loading = false

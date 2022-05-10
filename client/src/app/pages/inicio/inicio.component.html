@@ -1,32 +1,200 @@
-<div id="carouselExampleCaptions" class="carousel slide"
-  data-bs-ride="carousel">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleCaptions"
-      data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide
-      1"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions"
-      data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions"
-      data-bs-slide-to="2" aria-label="Slide 3"></button>
+<app-nav (scrollEvent)="scroll($event)"></app-nav>
+
+<div class="container-slider" id='top'>
+  <div id="carouselExampleCaptions" class="carousel slide"
+    data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div *ngFor="let img of images; let first= first" [class]="first ?
+        'carousel-item active' : 'carousel-item'">
+        <img [src]="img.img" class="d-block w-100 carouselImg" [alt]="img.titulo">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>{{img.titulo}}</h5>
+          <p>{{img.desc}}</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button"
+      data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button"
+      data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-  <div class="carousel-inner">
-    <div *ngFor="let img of images; let first= first" [class]="first ?
-      'carousel-item active' : 'carousel-item'">
-      <img [src]=img.url class="d-block w-100 carouselImg" alt="img.header">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>Some representative placeholder content for the first slide.</p>
+</div>
+<section id='paneles'>
+  <div class="contain reveal">
+    <app-residencial (scrollEvent)="scroll($event)"></app-residencial>
+  </div>
+</section>
+<section>
+  <div class="contain reveal">
+    <app-comercial (scrollEvent)="scroll($event)"></app-comercial>
+  </div>
+</section>
+<section class="">
+  <div class="contain reveal">
+    <app-industrial (scrollEvent)="scroll($event)"></app-industrial>
+  </div>
+</section>
+<section id='termosolares'>
+  <div class="contain reveal">
+    <app-residencial-ts (scrollEvent)="scroll($event)"></app-residencial-ts>
+  </div>
+</section>
+<section>
+  <div class="contain reveal">
+    <app-comercial-ts (scrollEvent)="scroll($event)"></app-comercial-ts>
+  </div>
+</section>
+<section>
+  <div class="contain reveal">
+    <app-industrial-ts (scrollEvent)="scroll($event)"></app-industrial-ts>
+  </div>
+</section>
+<section id='automatizacion'>
+  <div class="contain reveal">
+    <app-automatizacion></app-automatizacion>
+  </div>
+</section>
+<section id='casosExito'>
+  <div class="contain reveal">
+    <app-casos-exito></app-casos-exito>
+  </div>
+</section>
+<app-social-media></app-social-media>
+<recaptcha
+  [size]="'invisible'"
+  [hide]="false"
+  (captchaResponse)="onCaptchaResponse($event)">
+</recaptcha>
+<section id='contacto'>
+  <div class="contain reveal">
+    <div class="container-fluid">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-6 d-flex justify-content-center">
+          <img class="imgHeader" src="../assets/img/contacto/contactoHeader.jpg"
+            alt="PanelesHeader">
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-4 text-center">
+          <hr>
+          <h2>Contacto</h2>
+          <hr>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-8 col-sm-8 pt-3 mb-5">
+          <div class="card">
+            <div class="card-header">
+              <h4>Enviar Email <fa-icon [icon]="emailIcon"></fa-icon></h4>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="row">
+                    <div class="col-md-12 form-floating mb-3">
+                      <input type="text" class="form-control"
+                        (keyup)="checkInput('nombre')"
+                        id="nombreInput" [(ngModel)]="contact.nombre"
+                        [disabled]="loadingForm"
+                        placeholder="Escriba su nombre...">
+                      <label for="nombreInput">Nombre</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-floating mb-3">
+                      <input type="text" [(ngModel)]="contact.correo"
+                        [disabled]="loadingForm"
+                        class="form-control" (keyup)="checkInput('correo')"
+                        id="correoInput" placeholder="Escriba su correo...">
+                      <label for="correoInput">Correo</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-floating mb-3">
+                      <input type="number" [(ngModel)]="contact.telefono"
+                        [disabled]="loadingForm"
+                        class="form-control" (keyup)="checkInput('telefono')"
+                        id="telInput" placeholder="Escriba su telefono...">
+                      <label for="telInput">Teléfono</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 form-floating mb-3">
+                      <textarea class="form-control" [disabled]="loadingForm"
+                        (keyup)="checkInput('mensaje')"
+                        placeholder="Escriba un mensaje aquí"
+                        id="floatingTextarea" [(ngModel)]="contact.mensaje"></textarea>
+                      <label for="mensajeText">Mensaje</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12 informacion">
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <h5>JIDOKA AUTOMATIZACIÓN Y ENERGÍA S.A. DE C.V.</h5>
+                      <p>BLVD. GONZÁLEZ DE LA VEGA #364 PARQUE INDUSTRIA CARLOS
+                        A
+                        HERRERA ARALUCE, GÓMEZ PALACIO, DURANGO C.P. 35079</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <h5><fa-icon [icon]="emailIcon"></fa-icon>m.perez@jidoka.com.mx</h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <h5><fa-icon [icon]="phoneIcon"></fa-icon>(871)-175-01-07</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center">
+                <div [hidden]="!loadingForm" class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+              </div>
+              <div class="row d-flex justify-content-center pt-3">
+                <div class="col-md-4">
+                  <button class="btn btn-primary form-control"
+                    [disabled]="loadingForm"
+                    (click)="sendMail()">Enviar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <button class="carousel-control-prev" type="button"
-    data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button"
-    data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
+</section>
+
+<!-----------------------------------------MODAL MULTIUSOS------------------------------------------>
+<div class="modal fade" id="advertenciaModal" tabindex="-1"
+  aria-labelledby="advertenciaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-light">
+        <h5 id="headerModal" class="modal-title"></h5>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div id="alertModal" class="alert" role="alert">
+                <fa-icon [icon]="modalIcon"></fa-icon><h6 id="modalText"></h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>

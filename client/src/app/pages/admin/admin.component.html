@@ -1,9 +1,279 @@
-<ng-template *ngIf="">
+<div
+  *ngIf="[sessionStorage.getItem('user')].toString()!=''&&[sessionStorage.getItem('user')];
+  else elseBlock">
+  <app-nav></app-nav>
   <div class="container-fluid p-5">
-    <div class="row p-5">
-      <div class="col-md-12">
-        <p>admin works!</p>
+    <div class="row d-flex justify-content-center pt-5">
+      <div class="col-md-8 text-center pt-3">
+        <hr>
+        <h3>Gestionar imágenes del carrusel</h3>
+        <hr>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center pt-3">
+      <div class="col-md-12 table-responsive">
+        <table id="tablaSliders" class="table table-striped table-bordered
+          table-sm row-border hover" datatable [dtTrigger]="dtTrigger"
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Encabezado</th>
+              <th>Descripción</th>
+              <th>Imagen</th>
+              <th>Editar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let img of carruselImgs">
+              <td>{{img.id}}</td>
+              <td>{{img.titulo}}</td>
+              <td>{{img.desc}}</td>
+              <td [style]="{'display':'flex','justify-content':'center'}"><img
+                  [style]="{'width': '10vw'}" [src]="img.img"
+                  [alt]="img.titulo"></td>
+              <td class="align-middle">
+                <div class="row d-flex justify-content-around">
+                  <div class="col-md-5 col-sm-12">
+                    <button (click)="editImgCarrusel(img)"
+                      type="button" class="form-control mt-2 btn btn-primary">
+                      <fa-icon [icon]="editIcon"></fa-icon></button>
+                  </div>
+                  <div class="col-md-5 col-sm-12">
+                    <button (click)="confirmEliminaImgCarrusel(img)" type="button"
+                      class="form-control mt-2 btn btn-danger"> <fa-icon [icon]="xIcon"></fa-icon>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-end pt-5">
+      <div class="col-md-2">
+        <button data-bs-toggle="modal" data-bs-target="#addCarruselImgModal" class="btn btn-success form-control">Agregar imagen <fa-icon [icon]="addIcon"></fa-icon> </button>
+      </div>
+    </div>
+
+    <!--Sección de gestionar paneles solares-->
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8 text-center pt-3">
+        <hr>
+        <h3>Gestionar Páneles solares</h3>
+        <hr>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-12 text-center pt-3">
+        <table id="tablaPaneles" class="table table-striped table-bordered
+          table-sm row-border hover" datatable [dtTrigger]="dtTriggerP"
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>Aplicación</th>
+              <th>Encabezado</th>
+              <th>Contenido</th>
+              <th>Imagen</th>
+              <th>Editar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let card of panelesCards">
+              <td>{{card.tipo}}</td>
+              <td>{{card.titulo}}</td>
+              <td>{{card.desc}}</td>
+              <td [style]="{'display':'flex','justify-content':'center'}">
+                <img [style]="{'width': '10vw'}" [src]="card.img" [alt]="card.titulo">
+              </td>
+              <td class="align-middle">
+                <div class="row d-flex justify-content-around">
+                  <div class="col-md-5 col-sm-12">
+                    <button (click)="editCard(card, 'paneles')"
+                      type="button" class="form-control mt-2 btn btn-primary">
+                      <fa-icon [icon]="editIcon"></fa-icon></button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+
+  <!--Modal de agregar imagen a Carrusel-->
+  <div class="modal fade" id="addCarruselImgModal" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="addCarruselImgModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addCarruselImgModalLabel">Agregar imagen al carrusel</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row d-flex justify-content-evenly">
+            <div class="col-md-4">
+              <label for="headerInput">Título de la imagen</label>
+              <input [disabled]="loadingCarruselImg" id="headerInput" type="text" class="form-control" [(ngModel)]="carruselImgToLoad.titulo" placeholder="Ingresa el encabezado">
+            </div>
+            <div class="col-md-4">
+              <label for="descInput">Descripción de la imagen</label>
+              <input [disabled]="loadingCarruselImg" id="descInput" type="text" class="form-control" [(ngModel)]="carruselImgToLoad.desc" placeholder="Ingresa una descripción">
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center pt-3">
+            <div class="col-md-8">
+              <label class="pb-2" for="dropzone">Seleccionar o arrastrar imagen al carrusel</label>
+              <ngx-dropzone [disabled]="loadingCarruselImg" (change)="onSelect($event)"
+                accept="image/jpg, image/jpeg" [multiple]="false">
+                <ngx-dropzone-label>Selecciona una imagen o arrástrala aquí</ngx-dropzone-label>
+                <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"
+                  (removed)="onRemove(f)">
+                  <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                </ngx-dropzone-preview>
+              </ngx-dropzone>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div [hidden]="!loadingCarruselImg" class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" [disabled]="loadingCarruselImg"
+            data-bs-dismiss="modal">Cancelar</button>
+          <button [disabled]="loadingCarruselImg" type="button" class="btn btn-primary" (click)="saveImgCarrusel()">Guardar imagen <fa-icon [icon]="saveIcon"></fa-icon></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Modal de editar imagen de Carrusel-->
+  <div class="modal fade" id="editCarruselImgModal" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="editCarruselImgModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editCarruselImgModalLabel">Editar info. de imagen del carrusel</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row d-flex justify-content-evenly">
+            <div class="col-md-6">
+              <label for="headerInput">Título de la imagen</label>
+              <input [disabled]="loadingCarruselImgEdit" id="headerInput" type="text" class="form-control" [(ngModel)]="carruselImgEditing.titulo" placeholder="Ingresa el encabezado">
+            </div>
+            <div class="col-md-6">
+              <label for="descInput">Descripción de la imagen</label>
+              <input [disabled]="loadingCarruselImgEdit" id="descInput" type="text" class="form-control" [(ngModel)]="carruselImgEditing.desc" placeholder="Ingresa una descripción">
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div [hidden]="!loadingCarruselImgEdit" class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" [disabled]="loadingCarruselImgEdit"
+            data-bs-dismiss="modal">Cancelar</button>
+          <button [disabled]="loadingCarruselImgEdit" type="button" class="btn btn-primary" (click)="saveChangesImgCarrusel()">Guardar<fa-icon [icon]="saveIcon"></fa-icon></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Modal de confirmar eliminar imagen de Carrusel-->
+  <div class="modal fade" id="deleteCarruselImgModal" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteCarruselImgModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteCarruselImgModalLabel">Confirmación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row d-flex justify-content-evenly">
+            <div class="alert alert-warning" role="alert">
+              ¿Desea eliminar el registro? <fa-icon [icon]="warningIcon"></fa-icon>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div [hidden]="!loadingCarruselImgDelete" class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" [disabled]="loadingCarruselImgDelete"
+            data-bs-dismiss="modal">No</button>
+          <button [disabled]="loadingCarruselImgDelete" type="button" class="btn btn-primary" (click)="eliminaImgCarrusel()">Si<fa-icon [icon]="deleteIcon"></fa-icon></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!--Modal de editar card-->
+  <div class="modal fade" id="editCardModal" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="editCardModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editCardModalLabel">Editar publicación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row d-flex justify-content-evenly">
+            <div class="col-md-8">
+              <label for="headerInput">Título</label>
+              <input [disabled]="loadingCardEdit" id="headerInput" type="text" class="form-control" [(ngModel)]="cardEditing.titulo" placeholder="Ingresa el encabezado">
+            </div>
+          </div>
+          <div class="row d-flex justify-content-evenly pt-3">
+            <div class="col-md-8">
+              <label for="descInput">Contenido</label>
+              <textarea [disabled]="loadingCardEdit" id="descInput" type="text" class="form-control" [(ngModel)]="cardEditing.desc" placeholder="Ingresa una descripción"></textarea>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-evenly pt-3">
+            <div class="col-md-10">
+              <div class="alert alert-warning" role="alert">
+                Solo agregue una imagen si desea cambiar la actual, si no, deje el campo en blanco. <fa-icon [icon]="warningIcon"></fa-icon>
+              </div>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-evenly">
+            <div class="col-md-8">
+              <label class="pb-2" for="dropzone">Seleccionar o arrastrar imagen para la publicación</label>
+              <ngx-dropzone [disabled]="loadingCarruselImg" (change)="onSelectCardImg($event)"
+                accept="image/jpg, image/jpeg" [multiple]="false">
+                <ngx-dropzone-label>Selecciona una imagen o arrástrala aquí</ngx-dropzone-label>
+                <ngx-dropzone-preview *ngFor="let f of cardFile" [removable]="true"
+                  (removed)="onRemoveCardImg(f)">
+                  <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                </ngx-dropzone-preview>
+              </ngx-dropzone>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <div [hidden]="!loadingCardEdit" class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" [disabled]="loadingCardEdit"
+            data-bs-dismiss="modal">Cancelar</button>
+          <button [disabled]="loadingCardEdit" type="button" class="btn btn-primary" (click)="saveChangesCard()">Guardar<fa-icon [icon]="saveIcon"></fa-icon></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<ng-template #elseBlock>
+  <app-login></app-login>
 </ng-template>

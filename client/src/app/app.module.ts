@@ -23,6 +23,10 @@ import { ReCaptchaModule } from 'angular-recaptcha3';
 import { HttpClientModule } from '@angular/common/http'
 import * as $ from 'jquery'
 import * as bootstrap from "bootstrap";
+import { NavComponent } from './components/nav/nav.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CasosExitoComponent } from './pages/casos-exito/casos-exito.component';
+import { DataTablesModule } from 'angular-datatables'
 
 @NgModule({
   declarations: [
@@ -39,6 +43,8 @@ import * as bootstrap from "bootstrap";
     ResidencialTsComponent,
     ComercialTsComponent,
     IndustrialTsComponent,
+    NavComponent,
+    CasosExitoComponent,
 
   ],
   imports: [
@@ -58,7 +64,9 @@ import * as bootstrap from "bootstrap";
       },
       language: 'en'
     }),
-    HttpClientModule
+    HttpClientModule,
+    NgxDropzoneModule,
+    DataTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,22 +1,29 @@
-.card-header{
-  background-color: #d13138;
+.card-header {
+  background-color: black;
   text-align: center;
   font-size: 150%;
 }
-img{
-  max-width: fit-content;
+
+img {
+  width: 70%;
+  height: 35%;
 }
-p{
+
+p {
   font-weight: bold;
 }
 
-div.alert-danger{
+div.alert-danger {
   text-align: center;
 }
 
-div.alert-primary{
+div.alert-primary {
   text-align: center;
   font-size: x-large;
   font-style: Bold;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.container-fluid {
+  position:absolute;
 }
