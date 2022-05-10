@@ -9,8 +9,8 @@ class AdminController {
     public async setSliderImg(req: Request, res: Response) {
         let base64Data = req.body.img.replace(/^data:image\/jpeg;base64,/, "");
         const date = new Date()
-        const imgTitle = 'slider-' + Math.floor(Math.random() * date.getTime());
-        const imgPath = `${__dirname}/../../assets/img/carrusel/${imgTitle}.${req.body.imgType}`
+        const imgTitle = `slider-${Math.floor(Math.random() * date.getTime())}.${req.body.imgType}`;
+        const imgPath = `${__dirname}/../../assets/img/carrusel/${imgTitle}`
         const buffer = Buffer.from(base64Data, "base64");
         fs.writeFileSync(imgPath, buffer);
         await db.query(`INSERT INTO imagenes SET nombre = ?;`, imgPath, async (err: any, result: string | any[], fields: any) => {
@@ -32,7 +32,7 @@ class AdminController {
         WHERE tipo = 1;`);
 
         sliders.forEach(function (slider: any) {
-            let imagesPath = path.join(slider.imgPath)
+            let imagesPath = path.join(`${__dirname}/../../assets/img/carrusel/${slider.imgPath}`)
             let bitmap = fs.readFileSync(imagesPath, 'base64');
             slider.img = bitmap
         });
@@ -50,7 +50,7 @@ class AdminController {
         WHERE posts.tipo = 3 AND tiposaplicaciones.id_tipos_aplicaciones = ? AND posts.producto = ?;`, [req.body.tipo, req.body.producto]);
 
         cards.forEach(function (slider: any) {
-            let imagesPath = path.join(slider.imgPath)
+            let imagesPath = path.join(`${__dirname}/../../assets/img/cards/${slider.imgPath}`)
             let bitmap = fs.readFileSync(imagesPath, 'base64');
             slider.img = bitmap
         });
@@ -69,7 +69,7 @@ class AdminController {
         WHERE posts.tipo = 3 AND posts.producto = ?;`, [req.body.producto]);
 
         cards.forEach(function (slider: any) {
-            let imagesPath = path.join(slider.imgPath)
+            let imagesPath = path.join(`${__dirname}/../../assets/img/cards/${slider.imgPath}`)
             let bitmap = fs.readFileSync(imagesPath, 'base64');
             slider.img = bitmap
         });
@@ -102,8 +102,8 @@ class AdminController {
             fs.unlinkSync(path.join(imgAntPath[0].nombre))
 
             let base64Data = req.body.img.replace(/^data:image\/jpeg;base64,/, "");
-            const imgTitle = 'img-' + req.body.tipo;
-            const imgPath = `${__dirname}/../../assets/img/cards/${imgTitle}.${req.body.imgType}`
+            const imgTitle = `img-${req.body.tipo}.${req.body.imgType}`;
+            const imgPath = `${__dirname}/../../assets/img/cards/${imgTitle}`
             const buffer = Buffer.from(base64Data, "base64");
             fs.writeFileSync(imgPath, buffer);
             await db.query(`UPDATE posts SET titulo = ?, descripcion = ? WHERE idcarruselImg = ?;`,

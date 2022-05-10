@@ -60,17 +60,6 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.redirect()
-    this.getSliders()
-    this.getPanelesCards()
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 5,
-      lengthMenu: [5, 10, 25],
-      processing: true,
-      language: {
-        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-      }
-    }
   }
 
   ngOnDestroy(): void {
@@ -92,6 +81,7 @@ export class AdminComponent implements OnInit {
         this.carruselImgs = []
         this.carruselImgs.push(...this.getSlidersRes)
         this.rerenderTableCarrusel();
+        this.dtTrigger.next('');
       },
       err => console.error(err)
     )
@@ -105,6 +95,7 @@ export class AdminComponent implements OnInit {
           card.img = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + card.img);
         });
         this.rerenderTableCardsPanel();
+        this.dtTriggerP.next('');
       },
       err => console.error(err)
     )
@@ -113,18 +104,29 @@ export class AdminComponent implements OnInit {
   rerenderTableCarrusel() {
     let table = $('#tablaSliders').DataTable()
     table.destroy();
-    this.dtTrigger.next('');
   }
 
   rerenderTableCardsPanel() {
     let table = $('#tablaPaneles').DataTable()
     table.destroy();
-    this.dtTriggerP.next('');
   }
 
   redirect() {
     if (!sessionStorage.getItem('user')) {
       this.router.navigate(['/login'])
+    }
+    else{
+      this.getSliders()
+      this.getPanelesCards()
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        pageLength: 5,
+        lengthMenu: [5, 10, 25],
+        processing: true,
+        language: {
+          url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        }
+      }
     }
   }
 

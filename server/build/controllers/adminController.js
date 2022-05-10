@@ -20,8 +20,8 @@ class AdminController {
         return __awaiter(this, void 0, void 0, function* () {
             let base64Data = req.body.img.replace(/^data:image\/jpeg;base64,/, "");
             const date = new Date();
-            const imgTitle = 'slider-' + Math.floor(Math.random() * date.getTime());
-            const imgPath = `${__dirname}/../../assets/img/carrusel/${imgTitle}.${req.body.imgType}`;
+            const imgTitle = `slider-${Math.floor(Math.random() * date.getTime())}.${req.body.imgType}`;
+            const imgPath = `${__dirname}/../../assets/img/carrusel/${imgTitle}`;
             const buffer = Buffer.from(base64Data, "base64");
             fs_1.default.writeFileSync(imgPath, buffer);
             yield database_1.default.query(`INSERT INTO imagenes SET nombre = ?;`, imgPath, (err, result, fields) => __awaiter(this, void 0, void 0, function* () {
@@ -43,7 +43,7 @@ class AdminController {
         INNER JOIN imagenes ON posts.imagen_idimagen = imagenes.idimagen
         WHERE tipo = 1;`);
             sliders.forEach(function (slider) {
-                let imagesPath = path_1.default.join(slider.imgPath);
+                let imagesPath = path_1.default.join(`${__dirname}/../../assets/img/carrusel/${slider.imgPath}`);
                 let bitmap = fs_1.default.readFileSync(imagesPath, 'base64');
                 slider.img = bitmap;
             });
@@ -60,7 +60,7 @@ class AdminController {
         INNER JOIN tiposaplicaciones ON post_has_tipo_aplicacion.post_hta_idtipo = tiposaplicaciones.id_tipos_aplicaciones
         WHERE posts.tipo = 3 AND tiposaplicaciones.id_tipos_aplicaciones = ? AND posts.producto = ?;`, [req.body.tipo, req.body.producto]);
             cards.forEach(function (slider) {
-                let imagesPath = path_1.default.join(slider.imgPath);
+                let imagesPath = path_1.default.join(`${__dirname}/../../assets/img/cards/${slider.imgPath}`);
                 let bitmap = fs_1.default.readFileSync(imagesPath, 'base64');
                 slider.img = bitmap;
             });
@@ -78,7 +78,7 @@ class AdminController {
         INNER JOIN tiposaplicaciones ON post_has_tipo_aplicacion.post_hta_idtipo = tiposaplicaciones.id_tipos_aplicaciones
         WHERE posts.tipo = 3 AND posts.producto = ?;`, [req.body.producto]);
             cards.forEach(function (slider) {
-                let imagesPath = path_1.default.join(slider.imgPath);
+                let imagesPath = path_1.default.join(`${__dirname}/../../assets/img/cards/${slider.imgPath}`);
                 let bitmap = fs_1.default.readFileSync(imagesPath, 'base64');
                 slider.img = bitmap;
             });
@@ -113,8 +113,8 @@ class AdminController {
                 let imgAntPath = yield database_1.default.query(`SELECT * FROM imagenes WHERE idimagen = ?;`, [req.body.imgIdAnt]);
                 fs_1.default.unlinkSync(path_1.default.join(imgAntPath[0].nombre));
                 let base64Data = req.body.img.replace(/^data:image\/jpeg;base64,/, "");
-                const imgTitle = 'img-' + req.body.tipo;
-                const imgPath = `${__dirname}/../../assets/img/cards/${imgTitle}.${req.body.imgType}`;
+                const imgTitle = `img-${req.body.tipo}.${req.body.imgType}`;
+                const imgPath = `${__dirname}/../../assets/img/cards/${imgTitle}`;
                 const buffer = Buffer.from(base64Data, "base64");
                 fs_1.default.writeFileSync(imgPath, buffer);
                 yield database_1.default.query(`UPDATE posts SET titulo = ?, descripcion = ? WHERE idcarruselImg = ?;`, [req.body.titulo, req.body.desc, req.body.idCard], (err, result, fields) => __awaiter(this, void 0, void 0, function* () {
