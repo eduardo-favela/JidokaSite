@@ -13,7 +13,7 @@ class AdminController {
         const imgPath = `${__dirname}/../../assets/img/carrusel/${imgTitle}`
         const buffer = Buffer.from(base64Data, "base64");
         fs.writeFileSync(imgPath, buffer);
-        await db.query(`INSERT INTO imagenes SET nombre = ?;`, imgPath, async (err: any, result: string | any[], fields: any) => {
+        await db.query(`INSERT INTO imagenes SET nombre = ?;`, imgTitle, async (err: any, result: string | any[], fields: any) => {
             if (err) throw err
             let resultado: any = result;
             await db.query(`INSERT INTO posts SET titulo = ?, descripcion = ?, imagen_idimagen = ?, tipo = 1, producto = 1;`,
@@ -99,7 +99,7 @@ class AdminController {
         if (req.body.changeImg) {
 
             let imgAntPath = await db.query(`SELECT * FROM imagenes WHERE idimagen = ?;`, [req.body.imgIdAnt]) 
-            fs.unlinkSync(path.join(imgAntPath[0].nombre))
+            fs.unlinkSync(path.join(`${__dirname}/../../assets/img/cards/${imgAntPath[0].nombre}`))
 
             let base64Data = req.body.img.replace(/^data:image\/jpeg;base64,/, "");
             const imgTitle = `img-${req.body.tipo}.${req.body.imgType}`;

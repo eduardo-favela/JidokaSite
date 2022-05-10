@@ -101,6 +101,51 @@
         </table>
       </div>
     </div>
+
+    <!--Sección de gestionar termosolares-->
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8 text-center pt-3">
+        <hr>
+        <h3>Gestionar Termosolares</h3>
+        <hr>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-12 text-center pt-3">
+        <table id="tablaTermosolares" class="table table-striped table-bordered
+          table-sm row-border hover" datatable [dtTrigger]="dtTriggerT"
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>Aplicación</th>
+              <th>Encabezado</th>
+              <th>Contenido</th>
+              <th>Imagen</th>
+              <th>Editar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let card of termosolaresCards">
+              <td>{{card.tipo}}</td>
+              <td>{{card.titulo}}</td>
+              <td>{{card.desc}}</td>
+              <td [style]="{'display':'flex','justify-content':'center'}">
+                <img [style]="{'width': '10vw'}" [src]="card.img" [alt]="card.titulo">
+              </td>
+              <td class="align-middle">
+                <div class="row d-flex justify-content-around">
+                  <div class="col-md-5 col-sm-12">
+                    <button (click)="editCard(card, 'termosolares')"
+                      type="button" class="form-control mt-2 btn btn-primary">
+                      <fa-icon [icon]="editIcon"></fa-icon></button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   <!--Modal de agregar imagen a Carrusel-->

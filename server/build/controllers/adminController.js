@@ -24,7 +24,7 @@ class AdminController {
             const imgPath = `${__dirname}/../../assets/img/carrusel/${imgTitle}`;
             const buffer = Buffer.from(base64Data, "base64");
             fs_1.default.writeFileSync(imgPath, buffer);
-            yield database_1.default.query(`INSERT INTO imagenes SET nombre = ?;`, imgPath, (err, result, fields) => __awaiter(this, void 0, void 0, function* () {
+            yield database_1.default.query(`INSERT INTO imagenes SET nombre = ?;`, imgTitle, (err, result, fields) => __awaiter(this, void 0, void 0, function* () {
                 if (err)
                     throw err;
                 let resultado = result;
@@ -111,7 +111,7 @@ class AdminController {
         return __awaiter(this, void 0, void 0, function* () {
             if (req.body.changeImg) {
                 let imgAntPath = yield database_1.default.query(`SELECT * FROM imagenes WHERE idimagen = ?;`, [req.body.imgIdAnt]);
-                fs_1.default.unlinkSync(path_1.default.join(imgAntPath[0].nombre));
+                fs_1.default.unlinkSync(path_1.default.join(`${__dirname}/../../assets/img/cards/${imgAntPath[0].nombre}`));
                 let base64Data = req.body.img.replace(/^data:image\/jpeg;base64,/, "");
                 const imgTitle = `img-${req.body.tipo}.${req.body.imgType}`;
                 const imgPath = `${__dirname}/../../assets/img/cards/${imgTitle}`;

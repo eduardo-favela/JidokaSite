@@ -21,6 +21,7 @@ export class AdminComponent implements OnInit {
 
   dtTrigger: Subject<any> = new Subject();
   dtTriggerP: Subject<any> = new Subject();
+  dtTriggerT: Subject<any> = new Subject();
 
   carruselImgs: any = [];
 
@@ -65,6 +66,7 @@ export class AdminComponent implements OnInit {
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
     this.dtTriggerP.unsubscribe();
+    this.dtTriggerT.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -81,7 +83,6 @@ export class AdminComponent implements OnInit {
         this.carruselImgs = []
         this.carruselImgs.push(...this.getSlidersRes)
         this.rerenderTableCarrusel();
-        this.dtTrigger.next('');
       },
       err => console.error(err)
     )
@@ -95,7 +96,19 @@ export class AdminComponent implements OnInit {
           card.img = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + card.img);
         });
         this.rerenderTableCardsPanel();
-        this.dtTriggerP.next('');
+      },
+      err => console.error(err)
+    )
+  }
+
+  getTermosolaresCards() {
+    this.adminService.getCardsTable({ producto: 2 }).subscribe(
+      res => {
+        this.termosolaresCards = res;
+        this.termosolaresCards.forEach((card: any) => {
+          card.img = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + card.img);
+        });
+        this.rerenderTableCardsTermo();
       },
       err => console.error(err)
     )
@@ -104,11 +117,19 @@ export class AdminComponent implements OnInit {
   rerenderTableCarrusel() {
     let table = $('#tablaSliders').DataTable()
     table.destroy();
+    this.dtTrigger.next('');
   }
 
   rerenderTableCardsPanel() {
     let table = $('#tablaPaneles').DataTable()
     table.destroy();
+    this.dtTriggerP.next('');
+  }
+
+  rerenderTableCardsTermo() {
+    let table = $('#tablaTermosolares').DataTable()
+    table.destroy();
+    this.dtTriggerT.next('');
   }
 
   redirect() {
@@ -118,6 +139,7 @@ export class AdminComponent implements OnInit {
     else{
       this.getSliders()
       this.getPanelesCards()
+      this.getTermosolaresCards()
       this.dtOptions = {
         pagingType: 'full_numbers',
         pageLength: 5,
@@ -232,14 +254,14 @@ export class AdminComponent implements OnInit {
         this.cardEditing.desc = this.panelesCards[this.panelesCards.indexOf(card)].desc
         this.cardEditing.idCard = this.panelesCards[this.panelesCards.indexOf(card)].idcarruselImg
         this.cardEditing.imgIdAnt = this.panelesCards[this.panelesCards.indexOf(card)].imgId
-        this.cardEditing.tipo = this.panelesCards[this.panelesCards.indexOf(card)].tipo.toLowerCase()
+        this.cardEditing.tipo = this.panelesCards[this.panelesCards.indexOf(card)].tipo.toLowerCase()+ 'paneles'
         break;
       case 'termosolares':
         this.cardEditing.titulo = this.termosolaresCards[this.termosolaresCards.indexOf(card)].titulo
         this.cardEditing.desc = this.termosolaresCards[this.termosolaresCards.indexOf(card)].desc
         this.cardEditing.idCard = this.termosolaresCards[this.termosolaresCards.indexOf(card)].idcarruselImg
         this.cardEditing.imgIdAnt = this.termosolaresCards[this.termosolaresCards.indexOf(card)].imgId
-        this.cardEditing.tipo = this.termosolaresCards[this.termosolaresCards.indexOf(card)].tipo.toLowerCase()
+        this.cardEditing.tipo = this.termosolaresCards[this.termosolaresCards.indexOf(card)].tipo.toLowerCase()+'termosolares'
         break;
     }
   }
@@ -252,6 +274,7 @@ export class AdminComponent implements OnInit {
           this.cardEditing = {};
           this.cardFile = [];
           this.getPanelesCards();
+          this.getTermosolaresCards();
           this.loadingCardEdit = false;
           $('#editCardModal').modal('hide');
         }
