@@ -16,7 +16,26 @@ class AdminController {
         await db.query(`INSERT INTO imagenes SET nombre = ?;`, imgTitle, async (err: any, result: string | any[], fields: any) => {
             if (err) throw err
             let resultado: any = result;
-            await db.query(`INSERT INTO posts SET titulo = ?, descripcion = ?, imagen_idimagen = ?, tipo = 1, producto = 1;`,
+            await db.query(`INSERT INTO posts SET titulo = ?, descripcion = ?, imagen_idimagen = ?, tipo = 1, producto = ?;`,
+                [req.body.titulo, req.body.desc, resultado.insertId, req.body.producto],
+                function (err: any, result: string | any[], fields: any) {
+                    if (err) throw err
+                    res.json(true)
+                })
+        })
+    }
+
+    public async setCasoExito(req: Request, res: Response) {
+        let base64Data = req.body.img.replace(/^data:image\/jpeg;base64,/, "");
+        const date = new Date()
+        const imgTitle = `casoExito-${Math.floor(Math.random() * date.getTime())}.${req.body.imgType}`;
+        const imgPath = `${__dirname}/../../assets/img/casos-de-exito/${imgTitle}`
+        const buffer = Buffer.from(base64Data, "base64");
+        fs.writeFileSync(imgPath, buffer);
+        await db.query(`INSERT INTO imagenes SET nombre = ?;`, imgTitle, async (err: any, result: string | any[], fields: any) => {
+            if (err) throw err
+            let resultado: any = result;
+            await db.query(`INSERT INTO posts SET titulo = ?, descripcion = ?, imagen_idimagen = ?, tipo = 2, producto = 3;`,
                 [req.body.titulo, req.body.desc, resultado.insertId],
                 function (err: any, result: string | any[], fields: any) {
                     if (err) throw err
@@ -38,6 +57,21 @@ class AdminController {
         });
 
         res.json(sliders);
+    }
+
+    public async getCasosExito(req: Request, res: Response) {
+        let casosExito = await db.query(`SELECT idcarruselImg AS id, titulo, descripcion AS 'desc', nombre AS imgPath, idimagen AS imgId
+        FROM posts
+        INNER JOIN imagenes ON posts.imagen_idimagen = imagenes.idimagen
+        WHERE tipo = 2;`);
+
+        casosExito.forEach(function (slider: any) {
+            let imagesPath = path.join(`${__dirname}/../../assets/img/casos-de-exito/${slider.imgPath}`)
+            let bitmap = fs.readFileSync(imagesPath, 'base64');
+            slider.img = bitmap
+        });
+
+        res.json(casosExito);
     }
 
     public async getCards(req: Request, res: Response) {
@@ -80,7 +114,16 @@ class AdminController {
     public async deleteSlider(req: Request, res: Response) {
         await db.query(`DELETE FROM posts WHERE idcarruselImg = ?;`, req.body.idSlider)
         await db.query(`DELETE FROM imagenes WHERE idimagen = ?;`, req.body.imgId)
-        fs.rm(path.join(req.body.imgPath), function (err) {
+        fs.rm(path.join(`${__dirname}/../../assets/img/carrusel/${req.body.imgPath}`), function (err) {
+            if (err) throw err;
+            else { res.json(true) }
+        })
+    }
+
+    public async deleteCaso(req: Request, res: Response) {
+        await db.query(`DELETE FROM posts WHERE idcarruselImg = ?;`, req.body.idCaso)
+        await db.query(`DELETE FROM imagenes WHERE idimagen = ?;`, req.body.imgId)
+        fs.rm(path.join(`${__dirname}/../../assets/img/casos-de-exito/${req.body.imgPath}`), function (err) {
             if (err) throw err;
             else { res.json(true) }
         })
@@ -98,7 +141,7 @@ class AdminController {
 
         if (req.body.changeImg) {
 
-            let imgAntPath = await db.query(`SELECT * FROM imagenes WHERE idimagen = ?;`, [req.body.imgIdAnt]) 
+            let imgAntPath = await db.query(`SELECT * FROM imagenes WHERE idimagen = ?;`, [req.body.imgIdAnt])
             fs.unlinkSync(path.join(`${__dirname}/../../assets/img/cards/${imgAntPath[0].nombre}`))
 
             let base64Data = req.body.img.replace(/^data:image\/jpeg;base64,/, "");
@@ -107,10 +150,10 @@ class AdminController {
             const buffer = Buffer.from(base64Data, "base64");
             fs.writeFileSync(imgPath, buffer);
             await db.query(`UPDATE posts SET titulo = ?, descripcion = ? WHERE idcarruselImg = ?;`,
-            [req.body.titulo, req.body.desc, req.body.idCard], async (err: any, result: string | any[], fields: any)=>{
-                if (err) throw err;
-                res.json(true)
-            })
+                [req.body.titulo, req.body.desc, req.body.idCard], async (err: any, result: string | any[], fields: any) => {
+                    if (err) throw err;
+                    res.json(true)
+                })
         }
         else {
             await db.query(`UPDATE posts SET titulo = ?, descripcion = ? WHERE idcarruselImg = ?;`,
@@ -119,6 +162,11 @@ class AdminController {
                     res.json(true);
                 })
         }
+    }
+
+    public async getProductos(req: Request, res: Response) {
+        let productos = await db.query(`SELECT id_producto AS id, producto FROM productos ORDER BY producto;`);
+        res.json(productos)
     }
 }
 

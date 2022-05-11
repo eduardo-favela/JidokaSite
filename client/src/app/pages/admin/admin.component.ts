@@ -16,12 +16,14 @@ export class AdminComponent implements OnInit {
 
   files: File[] = [];
   cardFile: File[] = [];
+  cardCasoFile: File[] = [];
 
   dtOptions: DataTables.Settings = {};
 
   dtTrigger: Subject<any> = new Subject();
   dtTriggerP: Subject<any> = new Subject();
   dtTriggerT: Subject<any> = new Subject();
+  dtTriggerC: Subject<any> = new Subject();
 
   carruselImgs: any = [];
 
@@ -29,12 +31,25 @@ export class AdminComponent implements OnInit {
 
   termosolaresCards: any = [];
 
+  casosExito: any = [];
+
   carruselImgToLoad: any = {
+    img: null,
+    titulo: null,
+    desc: null,
+    imgType: null,
+    producto: null
+  }
+
+  casoExitoToLoad: any = {
     img: null,
     titulo: null,
     desc: null,
     imgType: null
   }
+
+  casoExitoEditing: any = {}
+  casoExitoDeleting: any = {}
 
   carruselImgEditing: any = {}
   carruselImgDeleting: any = {}
@@ -49,11 +64,16 @@ export class AdminComponent implements OnInit {
   deleteIcon = faEraser;
 
   loadingCarruselImg = false;
+  loadingCardCasos = false;
   loadingCarruselImgEdit = false;
   loadingCarruselImgDelete = false;
   loadingCardEdit = false;
+  loadingCasoEdit = false;
+  loadingCasoDelete = false;
 
   getSlidersRes: any = [];
+
+  productos: any = [];
 
   constructor(private router: Router, private adminService: AdminService, private _sanitizer: DomSanitizer) { }
 
@@ -71,6 +91,7 @@ export class AdminComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dtTrigger.next('');
+    this.dtTriggerC.next('');
   }
 
   getSliders() {
@@ -85,6 +106,30 @@ export class AdminComponent implements OnInit {
         this.rerenderTableCarrusel();
       },
       err => console.error(err)
+    )
+  }
+
+  getCasosExito() {
+    this.adminService.getCasosExito().subscribe(
+      res => {
+        this.casosExito = res
+        this.casosExito.forEach((slider: any) => {
+          slider.img = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + slider.img);
+        });
+        if (this.casosExito.length > 0) { this.rerenderTableCasosExito(); }
+      },
+      err => console.error(err)
+    )
+  }
+
+  getProductos() {
+    this.adminService.getProductos().subscribe(
+      res => {
+        this.productos = res
+      },
+      err => {
+        console.error(err)
+      }
     )
   }
 
@@ -132,12 +177,20 @@ export class AdminComponent implements OnInit {
     this.dtTriggerT.next('');
   }
 
+  rerenderTableCasosExito() {
+    let table = $('#tablaCasosExito').DataTable()
+    table.destroy();
+    this.dtTriggerC.next('');
+  }
+
   redirect() {
     if (!sessionStorage.getItem('user')) {
       this.router.navigate(['/login'])
     }
-    else{
+    else {
       this.getSliders()
+      this.getCasosExito()
+      this.getProductos()
       this.getPanelesCards()
       this.getTermosolaresCards()
       this.dtOptions = {
@@ -175,8 +228,23 @@ export class AdminComponent implements OnInit {
     };
   }
 
+  onSelectCardCasoImg(event: any) {
+    const file = event.addedFiles[0];
+    const reader = new FileReader();
+    this.cardCasoFile[0] = event.addedFiles[0];
+    this.casoExitoToLoad.imgType = event.addedFiles[0].type.toString().split('/')[1]
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.casoExitoToLoad.img = reader.result
+    };
+  }
+
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  onRemoveCardCasoImg(event: any) {
+    this.cardCasoFile.splice(this.cardCasoFile.indexOf(event), 1);
   }
 
   onRemoveCardImg(event: any) {
@@ -196,8 +264,9 @@ export class AdminComponent implements OnInit {
             this.carruselImgToLoad.img = null
             this.carruselImgToLoad.titulo = null
             this.carruselImgToLoad.desc = null
+            this.carruselImgToLoad.producto = null
             this.loadingCarruselImg = false;
-            this.getSliders()
+            //Recargar la tabla de casos de éxito
             $('#addCarruselImgModal').modal('hide');
           }
         },
@@ -212,9 +281,31 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  saveCardCaso() {
+    console.log(this.casoExitoToLoad)
+    this.loadingCardCasos = true;
+    this.adminService.setCasoExito(this.casoExitoToLoad).subscribe(
+      res => {
+        if (res) {
+          this.cardCasoFile = []
+          this.casoExitoToLoad.img = null
+          this.casoExitoToLoad.imgType = null
+          this.casoExitoToLoad.titulo = null
+          this.casoExitoToLoad.desc = null
+          this.loadingCardCasos = false;
+          this.getSliders()
+          $('#addCasosExito').modal('hide');
+        }
+      },
+      err => {
+        console.error(err)
+      }
+    )
+  }
+
   checkFormCarruselImg() {
     let valid = true
-    if (this.carruselImgToLoad.img && this.carruselImgToLoad.titulo && this.carruselImgToLoad.desc) {
+    if (this.carruselImgToLoad.img && this.carruselImgToLoad.titulo && this.carruselImgToLoad.desc && this.carruselImgToLoad.producto) {
       valid = true
     }
     else {
@@ -226,6 +317,11 @@ export class AdminComponent implements OnInit {
   editImgCarrusel(img: any) {
     $('#editCarruselImgModal').modal('show')
     this.carruselImgEditing = { ...this.carruselImgs[this.carruselImgs.indexOf(img)] }
+  }
+
+  editCardCasos(card: any) {
+    $('#editCasoExitoModal').modal('show')
+    this.casoExitoEditing = { ...this.casosExito[this.casosExito.indexOf(card)] }
   }
 
   saveChangesImgCarrusel() {
@@ -245,6 +341,23 @@ export class AdminComponent implements OnInit {
     )
   }
 
+  saveChangesCasoExito() {
+    this.loadingCasoEdit = true;
+    this.adminService.updateSlider({ id: this.casoExitoEditing.id, titulo: this.casoExitoEditing.titulo, desc: this.casoExitoEditing.desc }).subscribe(
+      res => {
+        if (res) {
+          this.loadingCasoEdit = false;
+          this.casoExitoEditing = {};
+          this.getCasosExito();
+          $('#editCasoExitoModal').modal('hide')
+        }
+      },
+      err => {
+
+      }
+    )
+  }
+
   editCard(card: any, producto: any) {
     this.cardEditing = {}
     $('#editCardModal').modal('show')
@@ -254,14 +367,14 @@ export class AdminComponent implements OnInit {
         this.cardEditing.desc = this.panelesCards[this.panelesCards.indexOf(card)].desc
         this.cardEditing.idCard = this.panelesCards[this.panelesCards.indexOf(card)].idcarruselImg
         this.cardEditing.imgIdAnt = this.panelesCards[this.panelesCards.indexOf(card)].imgId
-        this.cardEditing.tipo = this.panelesCards[this.panelesCards.indexOf(card)].tipo.toLowerCase()+ 'paneles'
+        this.cardEditing.tipo = this.panelesCards[this.panelesCards.indexOf(card)].tipo.toLowerCase() + 'paneles'
         break;
       case 'termosolares':
         this.cardEditing.titulo = this.termosolaresCards[this.termosolaresCards.indexOf(card)].titulo
         this.cardEditing.desc = this.termosolaresCards[this.termosolaresCards.indexOf(card)].desc
         this.cardEditing.idCard = this.termosolaresCards[this.termosolaresCards.indexOf(card)].idcarruselImg
         this.cardEditing.imgIdAnt = this.termosolaresCards[this.termosolaresCards.indexOf(card)].imgId
-        this.cardEditing.tipo = this.termosolaresCards[this.termosolaresCards.indexOf(card)].tipo.toLowerCase()+'termosolares'
+        this.cardEditing.tipo = this.termosolaresCards[this.termosolaresCards.indexOf(card)].tipo.toLowerCase() + 'termosolares'
         break;
     }
   }
@@ -281,6 +394,28 @@ export class AdminComponent implements OnInit {
       },
       err => {
         this.loadingCardEdit = false;
+        console.error(err)
+      }
+    )
+  }
+
+  confirmEliminarCaso(card: any) {
+    $('#deleteCasoExitoModal').modal('show')
+    this.casoExitoDeleting = { ...this.casosExito[this.casosExito.indexOf(card)] }
+  }
+
+  eliminaCasoExito() {
+    this.loadingCasoDelete = true;
+    this.adminService.deleteCaso({ idCaso: this.casoExitoDeleting.id, imgId: this.casoExitoDeleting.imgId, imgPath: this.casoExitoDeleting.imgPath }).subscribe(
+      res => {
+        if (res) {
+          this.loadingCasoDelete = false;
+          this.getCasosExito()
+          this.casoExitoDeleting = {}
+          $('#deleteCasoExitoModal').modal('hide')
+        }
+      },
+      err => {
         console.error(err)
       }
     )
