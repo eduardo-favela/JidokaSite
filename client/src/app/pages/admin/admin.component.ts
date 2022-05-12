@@ -266,12 +266,12 @@ export class AdminComponent implements OnInit {
             this.carruselImgToLoad.desc = null
             this.carruselImgToLoad.producto = null
             this.loadingCarruselImg = false;
-            //Recargar la tabla de casos de éxito
+            this.getSliders()
             $('#addCarruselImgModal').modal('hide');
           }
         },
         err => {
-          console.log(err)
+          console.error(err)
         }
       )
     }
@@ -282,7 +282,6 @@ export class AdminComponent implements OnInit {
   }
 
   saveCardCaso() {
-    console.log(this.casoExitoToLoad)
     this.loadingCardCasos = true;
     this.adminService.setCasoExito(this.casoExitoToLoad).subscribe(
       res => {
@@ -293,7 +292,7 @@ export class AdminComponent implements OnInit {
           this.casoExitoToLoad.titulo = null
           this.casoExitoToLoad.desc = null
           this.loadingCardCasos = false;
-          this.getSliders()
+          this.getCasosExito()
           $('#addCasosExito').modal('hide');
         }
       },
