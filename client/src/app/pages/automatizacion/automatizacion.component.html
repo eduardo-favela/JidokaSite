@@ -12,11 +12,14 @@
       <hr>
     </div>
   </div>
-  <div class="row d-flex justify-content-center">
-    <div class="col-md-8 col-sm-12 pt-3">
-      <div class="hstack gap-3">
-        <div class="bg-light border">
-          <img class="automicon m-1" *ngFor="let img of imagesAutom" [src]="img.name" alt={{img.name}}>
+  <div class="row d-flex justify-content-center pt-5 pl-5 pr-5">
+    <div class="col-8">
+      <div class="row d-flex justify-content-center">
+        <div *ngFor="let icon of imagesAutom" class="col-md-2 col-sm-4 col-xs-4 p-3">
+          <figure class="figure">
+            <img [src]="icon.name" class="figure-img img-fluid rounded" alt="imagenAutom">
+            <figcaption class="figure-caption">{{icon.desc}}</figcaption>
+          </figure>
         </div>
       </div>
     </div>

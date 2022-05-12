@@ -3,7 +3,8 @@ import {
   faTemperatureHalf, faGears, faAddressCard,
   faSolarPanel,
   faCode,
-  faCheckToSlot
+  faCheckToSlot,
+  faFilm
 } from '@fortawesome/free-solid-svg-icons'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
 import { faPhone } from '@fortawesome/free-solid-svg-icons'
@@ -26,6 +27,7 @@ export class NavComponent implements OnInit {
   emailIcon = faEnvelope;
   phoneIcon = faPhone;
   casosIcon = faCheckToSlot;
+  videoIcon = faFilm;
 
   constructor(private router: Router, private location: Location) { }
 

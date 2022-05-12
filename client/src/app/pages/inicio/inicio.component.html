@@ -35,9 +35,23 @@
     <app-comercial (scrollEvent)="scroll($event)"></app-comercial>
   </div>
 </section>
-<section class="">
+<section>
   <div class="contain reveal">
     <app-industrial (scrollEvent)="scroll($event)"></app-industrial>
+  </div>
+</section>
+<section id='video'>
+  <div class="contain reveal">
+    <div class="container-fluid">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+          <video width="100%" autoplay [muted]="'muted'" loop>
+            <source src="../assets/video/JDKVideo.mp4" type="video/mp4">
+            Your browser does not support HTML video.
+          </video>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 <section id='termosolares'>
