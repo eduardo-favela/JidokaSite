@@ -11,23 +11,37 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active btn" (click)="scroll('paneles')">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active btn" (click)="scroll('paneles')">
             Paneles solares
             <fa-icon [icon]="solarIcon"></fa-icon>
           </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item btn" (click)="scroll('paneles')">Residencial</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item btn" (click)="scroll('paneles-comercial')">Comercial</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item btn" (click)="scroll('paneles-industrial')">Industrial</a></li>
+          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link active btn" (click)="scroll('video')">
-            ¿Quiénes somos?
+            Video institucional
             <fa-icon [icon]="videoIcon"></fa-icon>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active btn" (click)="scroll('termosolares')">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active btn" (click)="scroll('termosolares')">
             Termosolares
             <fa-icon [icon]="termosolarIcon"></fa-icon>
           </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item btn" (click)="scroll('termosolares')">Residencial</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item btn" (click)="scroll('termosolares-comercial')">Comercial</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item btn" (click)="scroll('termosolares-industrial')">Industrial</a></li>
+          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link active btn" (click)="scroll('automatizacion')">

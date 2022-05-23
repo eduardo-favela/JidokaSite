@@ -52,4 +52,12 @@ export class AdminService {
   getProductos() {
     return this.http.get(`${API_URI}/admin/getProductos`)
   }
+
+  getAutomText(seccion: any){
+    return this.http.post(`${API_URI}/admin/getAutomText`, seccion)
+  }
+
+  setAutomText(idText: any){
+    return this.http.post(`${API_URI}/admin/setAutomText`, idText)
+  }
 }

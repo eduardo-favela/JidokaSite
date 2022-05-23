@@ -185,6 +185,21 @@ class AdminController {
             res.json(productos);
         });
     }
+    getAutomText(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let automText = yield database_1.default.query(`SELECT * FROM textos WHERE seccion_pagina = ?;`, req.body.seccion);
+            res.json(automText);
+        });
+    }
+    setAutomText(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield database_1.default.query(`UPDATE textos SET contenido = ? WHERE idtexto = ?;`, [req.body.contenido, req.body.idtexto], (err, result, fields) => __awaiter(this, void 0, void 0, function* () {
+                if (err)
+                    throw err;
+                res.json(true);
+            }));
+        });
+    }
 }
 const adminController = new AdminController();
 exports.default = adminController;

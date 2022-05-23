@@ -18,6 +18,10 @@ export class AdminComponent implements OnInit {
   cardFile: File[] = [];
   cardCasoFile: File[] = [];
 
+  automText: any = {};
+  automTextRes: any = [];
+  loadingAutomText : boolean = false;
+
   dtOptions: DataTables.Settings = {};
 
   dtTrigger: Subject<any> = new Subject();
@@ -188,6 +192,7 @@ export class AdminComponent implements OnInit {
       this.router.navigate(['/login'])
     }
     else {
+      this.getAutomText()
       this.getSliders()
       this.getCasosExito()
       this.getProductos()
@@ -440,5 +445,34 @@ export class AdminComponent implements OnInit {
   confirmEliminaImgCarrusel(img: any) {
     $('#deleteCarruselImgModal').modal('show')
     this.carruselImgDeleting = { ...this.carruselImgs[this.carruselImgs.indexOf(img)] }
+  }
+
+  saveTextAutom() {
+    this.loadingAutomText = true;
+    this.adminService.setAutomText({ idtexto: this.automText.idtexto, contenido: this.automText.contenido }).subscribe(
+      res => {
+        if (res) {
+          this.getAutomText()
+        }
+      },
+      err => {
+        console.error(err)
+      }
+    )
+  }
+
+  getAutomText() {
+    this.adminService.getAutomText({ seccion: 'automatizacion' }).subscribe(
+      res => {
+        if (res) {
+          this.loadingAutomText = false;
+          this.automTextRes = res
+          this.automText = { ...this.automTextRes[0] }
+        }
+      },
+      err => {
+        console.error(err)
+      }
+    )
   }
 }

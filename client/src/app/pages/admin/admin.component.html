@@ -212,6 +212,25 @@
             [icon]="addIcon"></fa-icon> </button>
       </div>
     </div>
+
+    <!--Sección de editar texto de automatización-->
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8 text-center pt-3">
+        <hr>
+        <h3>Editar texto de automatización</h3>
+        <hr>
+      </div>
+    </div>
+    <div class="row pt-3 d-flex justify-content-evenly">
+      <div class="col-10">
+        <textarea [disabled]="loadingAutomText" placeholder="Ingrese un texto para mostrar" class="form-control" name="automText" [(ngModel)]="automText.contenido" id="automText" cols="30" rows="8"></textarea>
+      </div>
+    </div>
+    <div class="row pt-3 flex justify-content-end">
+      <div class="col-3">
+        <button [disabled]="loadingAutomText" (click)="saveTextAutom()" class="btn btn-success form-control">Guardar cambios</button>
+      </div>
+    </div>
   </div>
 
   <!--Modal de agregar imagen a Carrusel-->

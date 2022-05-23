@@ -168,6 +168,18 @@ class AdminController {
         let productos = await db.query(`SELECT id_producto AS id, producto FROM productos ORDER BY producto;`);
         res.json(productos)
     }
+
+    public async getAutomText(req: Request, res: Response) {
+        let automText = await db.query(`SELECT * FROM textos WHERE seccion_pagina = ?;`,req.body.seccion);
+        res.json(automText)
+    }
+
+    public async setAutomText(req: Request, res: Response) {
+        await db.query(`UPDATE textos SET contenido = ? WHERE idtexto = ?;`,[req.body.contenido, req.body.idtexto], async (err: any, result: string | any[], fields: any) => {
+            if (err) throw err
+            res.json(true)
+        });
+    }
 }
 
 const adminController = new AdminController()

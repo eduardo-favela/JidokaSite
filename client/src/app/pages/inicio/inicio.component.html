@@ -8,8 +8,8 @@
         'carousel-item active' : 'carousel-item'">
         <img [src]="img.img" class="d-block w-100 carouselImg" [alt]="img.titulo">
         <div class="carousel-caption d-none d-md-block">
-          <h5>{{img.titulo}}</h5>
-          <p>{{img.desc}}</p>
+          <h5 class="tituloSlider">{{img.titulo}}</h5>
+          <p class="textSlider">{{img.desc}}</p>
         </div>
       </div>
     </div>
@@ -25,22 +25,22 @@
     </button>
   </div>
 </div>
-<section id='paneles'>
+<section class="header" id='paneles'>
   <div class="contain reveal">
     <app-residencial (scrollEvent)="scroll($event)"></app-residencial>
   </div>
 </section>
-<section>
+<section class="content" id='paneles-comercial'>
   <div class="contain reveal">
     <app-comercial (scrollEvent)="scroll($event)"></app-comercial>
   </div>
 </section>
-<section>
+<section class="content" id='paneles-industrial'>
   <div class="contain reveal">
     <app-industrial (scrollEvent)="scroll($event)"></app-industrial>
   </div>
 </section>
-<section id='video'>
+<section class="content" id='video'>
   <div class="contain reveal">
     <div class="container-fluid">
       <div class="row d-flex justify-content-center">
@@ -54,27 +54,27 @@
     </div>
   </div>
 </section>
-<section id='termosolares'>
+<section class="header" id='termosolares'>
   <div class="contain reveal">
     <app-residencial-ts (scrollEvent)="scroll($event)"></app-residencial-ts>
   </div>
 </section>
-<section>
+<section class="content" id='termosolares-comercial'>
   <div class="contain reveal">
     <app-comercial-ts (scrollEvent)="scroll($event)"></app-comercial-ts>
   </div>
 </section>
-<section>
+<section class="content" id='termosolares-industrial'>
   <div class="contain reveal">
     <app-industrial-ts (scrollEvent)="scroll($event)"></app-industrial-ts>
   </div>
 </section>
-<section id='automatizacion'>
+<section class="header" id='automatizacion'>
   <div class="contain reveal">
     <app-automatizacion></app-automatizacion>
   </div>
 </section>
-<section id='casosExito'>
+<section class="header" id='casosExito'>
   <div class="contain reveal">
     <app-casos-exito></app-casos-exito>
   </div>
@@ -85,7 +85,7 @@
   [hide]="false"
   (captchaResponse)="onCaptchaResponse($event)">
 </recaptcha>
-<section id='contacto'>
+<section class="header" id='contacto'>
   <div class="contain reveal">
     <div class="container-fluid">
       <div class="row d-flex justify-content-center">

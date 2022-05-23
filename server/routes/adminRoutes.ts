@@ -20,6 +20,8 @@ class ContactoRoutes {
         this.router.post('/getCardsTable', adminController.getCardsTable)
         this.router.post('/updateCard', adminController.updateCard)
         this.router.get('/getProductos', adminController.getProductos)
+        this.router.post('/getAutomText', adminController.getAutomText)
+        this.router.post('/setAutomText', adminController.setAutomText)
     }
 }
 

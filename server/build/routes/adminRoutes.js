@@ -22,6 +22,8 @@ class ContactoRoutes {
         this.router.post('/getCardsTable', adminController_1.default.getCardsTable);
         this.router.post('/updateCard', adminController_1.default.updateCard);
         this.router.get('/getProductos', adminController_1.default.getProductos);
+        this.router.post('/getAutomText', adminController_1.default.getAutomText);
+        this.router.post('/setAutomText', adminController_1.default.setAutomText);
     }
 }
 const contactoRoutes = new ContactoRoutes();

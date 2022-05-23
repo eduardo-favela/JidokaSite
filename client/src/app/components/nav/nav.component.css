@@ -9,3 +9,7 @@
 fa-icon {
   font-size: large;
 }
+
+.dropdown:hover .dropdown-menu{
+  display: block;
+}
