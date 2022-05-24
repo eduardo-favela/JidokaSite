@@ -19,7 +19,7 @@ class Server {
     config() {
         this.app.set('port', process.env.PORT || 3000);
         this.app.use((0, morgan_1.default)('dev'));
-        this.app.use((0, cors_1.default)());
+        this.app.use((0, cors_1.default)({ origin: 'http://localhost:4200' }));
         this.app.use(express_1.default.json({ limit: '50mb' }));
         this.app.use(express_1.default.urlencoded({ limit: '50mb', extended: true }));
         this.app.use(body_parser_1.default.json({ limit: '50mb' }));

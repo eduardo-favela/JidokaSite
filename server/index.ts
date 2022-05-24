@@ -19,7 +19,7 @@ class Server {
     config(): void {
         this.app.set('port', process.env.PORT || 3000)
         this.app.use(morgan('dev'))
-        this.app.use(cors())
+        this.app.use(cors({origin: 'http://localhost:4200'}))
         this.app.use(express.json({ limit: '50mb' }))
         this.app.use(express.urlencoded({ limit: '50mb', extended: true }))
         this.app.use(bodyParser.json({ limit: '50mb' }))
