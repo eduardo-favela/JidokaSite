@@ -26,7 +26,8 @@ import * as bootstrap from "bootstrap";
 import { NavComponent } from './components/nav/nav.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CasosExitoComponent } from './pages/casos-exito/casos-exito.component';
-import { DataTablesModule } from 'angular-datatables'
+import { DataTablesModule } from 'angular-datatables';
+import { ColectorSolarComponent } from './pages/termosolares/colector-solar/colector-solar.component'
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { DataTablesModule } from 'angular-datatables'
     IndustrialTsComponent,
     NavComponent,
     CasosExitoComponent,
+    ColectorSolarComponent,
 
   ],
   imports: [

@@ -20,7 +20,7 @@ export class AdminComponent implements OnInit {
 
   automText: any = {};
   automTextRes: any = [];
-  loadingAutomText : boolean = false;
+  loadingAutomText: boolean = false;
 
   dtOptions: DataTables.Settings = {};
 
@@ -28,12 +28,15 @@ export class AdminComponent implements OnInit {
   dtTriggerP: Subject<any> = new Subject();
   dtTriggerT: Subject<any> = new Subject();
   dtTriggerC: Subject<any> = new Subject();
+  dtTriggerCo: Subject<any> = new Subject();
 
   carruselImgs: any = [];
 
   panelesCards: any = [];
 
   termosolaresCards: any = [];
+
+  colectoresCards: any = [];
 
   casosExito: any = [];
 
@@ -163,6 +166,19 @@ export class AdminComponent implements OnInit {
     )
   }
 
+  getColectoresCards() {
+    this.adminService.getCardsTable({ producto: 4 }).subscribe(
+      res => {
+        this.colectoresCards = res;
+        this.colectoresCards.forEach((card: any) => {
+          card.img = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + card.img);
+        });
+        this.rerenderTableColectores();
+      },
+      err => console.error(err)
+    )
+  }
+
   rerenderTableCarrusel() {
     let table = $('#tablaSliders').DataTable()
     table.destroy();
@@ -187,6 +203,12 @@ export class AdminComponent implements OnInit {
     this.dtTriggerC.next('');
   }
 
+  rerenderTableColectores() {
+    let table = $('#tablaColectores').DataTable()
+    table.destroy();
+    this.dtTriggerCo.next('');
+  }
+
   redirect() {
     if (!sessionStorage.getItem('user')) {
       this.router.navigate(['/login'])
@@ -198,6 +220,7 @@ export class AdminComponent implements OnInit {
       this.getProductos()
       this.getPanelesCards()
       this.getTermosolaresCards()
+      this.getColectoresCards()
       this.dtOptions = {
         pagingType: 'full_numbers',
         pageLength: 5,
@@ -380,6 +403,13 @@ export class AdminComponent implements OnInit {
         this.cardEditing.imgIdAnt = this.termosolaresCards[this.termosolaresCards.indexOf(card)].imgId
         this.cardEditing.tipo = this.termosolaresCards[this.termosolaresCards.indexOf(card)].tipo.toLowerCase() + 'termosolares'
         break;
+      case 'colectores':
+        this.cardEditing.titulo = this.colectoresCards[this.colectoresCards.indexOf(card)].titulo
+        this.cardEditing.desc = this.colectoresCards[this.colectoresCards.indexOf(card)].desc
+        this.cardEditing.idCard = this.colectoresCards[this.colectoresCards.indexOf(card)].idcarruselImg
+        this.cardEditing.imgIdAnt = this.colectoresCards[this.colectoresCards.indexOf(card)].imgId
+        this.cardEditing.tipo = this.colectoresCards[this.colectoresCards.indexOf(card)].tipo.toLowerCase() + 'colectoressolares'
+        break;
     }
   }
 
@@ -392,6 +422,7 @@ export class AdminComponent implements OnInit {
           this.cardFile = [];
           this.getPanelesCards();
           this.getTermosolaresCards();
+          this.getColectoresCards();
           this.loadingCardEdit = false;
           $('#editCardModal').modal('hide');
         }
