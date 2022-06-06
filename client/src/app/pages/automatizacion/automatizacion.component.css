@@ -9,7 +9,17 @@ h2 {
   border: solid 6px #44b84c;
 }
 
-.automicon {
-  width: 7vw;
-  height: 7vw;
+@media screen and (max-width: 1220px) {
+  /* Pantallas pequeñas de hasta 1220px (celulares y tablets) */
+  .automicon {
+    width: 20%;
+    margin: 20px;
+  }
+}
+
+@media screen and (min-width: 1221px) {
+  /* Pantallas más grandes de 1221px (computadoras, pantallas etc) */
+  .automicon {
+    width: 20%;
+  }
 }

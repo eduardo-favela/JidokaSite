@@ -19,12 +19,10 @@
   <div class="row d-flex justify-content-center pt-5 pl-5 pr-5">
     <div class="col-8">
       <div class="row d-flex justify-content-center">
-        <div *ngFor="let icon of imagesAutom" class="col-md-2 col-sm-4 col-xs-4 p-3">
-          <figure class="figure">
-            <img [src]="icon.name" class="figure-img img-fluid rounded" alt="imagenAutom">
-            <figcaption class="figure-caption">{{icon.desc}}</figcaption>
-          </figure>
-        </div>
+        <figure *ngFor="let icon of imagesAutom" class="figure automicon">
+          <img [src]="icon.name" class="figure-img img-fluid rounded" alt="imagenAutom">
+          <figcaption class="figure-caption">{{icon.desc}}</figcaption>
+        </figure>
       </div>
     </div>
   </div>
