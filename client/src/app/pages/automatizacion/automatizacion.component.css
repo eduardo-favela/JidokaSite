@@ -20,6 +20,6 @@ h2 {
 @media screen and (min-width: 1221px) {
   /* Pantallas más grandes de 1221px (computadoras, pantallas etc) */
   .automicon {
-    width: 20%;
+    width: 14.28%;
   }
 }
