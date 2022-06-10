@@ -48,7 +48,7 @@ class AdminController {
                 if (err)
                     throw err;
                 let resultado = result;
-                yield database_1.default.query(`INSERT INTO posts SET titulo = ?, descripcion = ?, imagen_idimagen = ?, tipo = 2, producto = 3;`, [req.body.titulo, req.body.desc, resultado.insertId], function (err, result, fields) {
+                yield database_1.default.query(`INSERT INTO posts SET titulo = ?, descripcion = ?, imagen_idimagen = ?, tipo = 2, producto = ${req.body.tipoCaso};`, [req.body.titulo, req.body.desc, resultado.insertId], function (err, result, fields) {
                     if (err)
                         throw err;
                     res.json(true);
@@ -75,7 +75,21 @@ class AdminController {
             let casosExito = yield database_1.default.query(`SELECT idcarruselImg AS id, titulo, descripcion AS 'desc', nombre AS imgPath, idimagen AS imgId
         FROM posts
         INNER JOIN imagenes ON posts.imagen_idimagen = imagenes.idimagen
-        WHERE tipo = 2;`);
+        WHERE tipo = 2 and producto = 3;`);
+            casosExito.forEach(function (slider) {
+                let imagesPath = path_1.default.join(`${__dirname}/../../assets/img/casos-de-exito/${slider.imgPath}`);
+                let bitmap = fs_1.default.readFileSync(imagesPath, 'base64');
+                slider.img = bitmap;
+            });
+            res.json(casosExito);
+        });
+    }
+    getCasosExitoAutom(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let casosExito = yield database_1.default.query(`SELECT idcarruselImg AS id, titulo, descripcion AS 'desc', nombre AS imgPath, idimagen AS imgId
+        FROM posts
+        INNER JOIN imagenes ON posts.imagen_idimagen = imagenes.idimagen
+        WHERE tipo = 2 and producto = 4;`);
             casosExito.forEach(function (slider) {
                 let imagesPath = path_1.default.join(`${__dirname}/../../assets/img/casos-de-exito/${slider.imgPath}`);
                 let bitmap = fs_1.default.readFileSync(imagesPath, 'base64');

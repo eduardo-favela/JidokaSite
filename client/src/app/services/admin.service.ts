@@ -25,6 +25,10 @@ export class AdminService {
     return this.http.get(`${API_URI}/admin/getCasosExito`)
   }
 
+  getCasosExitoAutom() {
+    return this.http.get(`${API_URI}/admin/getCasosExitoAutom`)
+  }
+
   deleteSlider(sliderInfo: any) {
     return this.http.post(`${API_URI}/admin/deleteSlider`, sliderInfo)
   }

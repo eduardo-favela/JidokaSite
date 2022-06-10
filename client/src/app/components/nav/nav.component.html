@@ -51,11 +51,16 @@
             <fa-icon [icon]="automationIcon"></fa-icon>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active btn" (click)="scroll('casosExito')">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active btn" (click)="scroll('casosExito')">
             Casos de éxito
             <fa-icon [icon]="casosIcon"></fa-icon>
           </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item btn" (click)="scroll('casosExito')">Pánales/Termosolares</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item btn" (click)="scroll('casosExitoAutom')">Automatización</a></li>
+          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link active btn" (click)="scroll('contacto')">

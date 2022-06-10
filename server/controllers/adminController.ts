@@ -35,7 +35,7 @@ class AdminController {
         await db.query(`INSERT INTO imagenes SET nombre = ?;`, imgTitle, async (err: any, result: string | any[], fields: any) => {
             if (err) throw err
             let resultado: any = result;
-            await db.query(`INSERT INTO posts SET titulo = ?, descripcion = ?, imagen_idimagen = ?, tipo = 2, producto = 3;`,
+            await db.query(`INSERT INTO posts SET titulo = ?, descripcion = ?, imagen_idimagen = ?, tipo = 2, producto = ${req.body.tipoCaso};`,
                 [req.body.titulo, req.body.desc, resultado.insertId],
                 function (err: any, result: string | any[], fields: any) {
                     if (err) throw err
@@ -63,7 +63,22 @@ class AdminController {
         let casosExito = await db.query(`SELECT idcarruselImg AS id, titulo, descripcion AS 'desc', nombre AS imgPath, idimagen AS imgId
         FROM posts
         INNER JOIN imagenes ON posts.imagen_idimagen = imagenes.idimagen
-        WHERE tipo = 2;`);
+        WHERE tipo = 2 and producto = 3;`);
+
+        casosExito.forEach(function (slider: any) {
+            let imagesPath = path.join(`${__dirname}/../../assets/img/casos-de-exito/${slider.imgPath}`)
+            let bitmap = fs.readFileSync(imagesPath, 'base64');
+            slider.img = bitmap
+        });
+
+        res.json(casosExito);
+    }
+
+    public async getCasosExitoAutom(req: Request, res: Response) {
+        let casosExito = await db.query(`SELECT idcarruselImg AS id, titulo, descripcion AS 'desc', nombre AS imgPath, idimagen AS imgId
+        FROM posts
+        INNER JOIN imagenes ON posts.imagen_idimagen = imagenes.idimagen
+        WHERE tipo = 2 and producto = 4;`);
 
         casosExito.forEach(function (slider: any) {
             let imagesPath = path.join(`${__dirname}/../../assets/img/casos-de-exito/${slider.imgPath}`)

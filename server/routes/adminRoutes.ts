@@ -13,6 +13,7 @@ class ContactoRoutes {
         this.router.post('/setCasoExito', adminController.setCasoExito)
         this.router.get('/getSliders', adminController.getSilders)
         this.router.get('/getCasosExito', adminController.getCasosExito)
+        this.router.get('/getCasosExitoAutom', adminController.getCasosExitoAutom)
         this.router.post('/deleteSlider', adminController.deleteSlider)
         this.router.post('/deleteCaso', adminController.deleteCaso)
         this.router.post('/updateSlider', adminController.updateSlider)

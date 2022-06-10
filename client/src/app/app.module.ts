@@ -27,7 +27,8 @@ import { NavComponent } from './components/nav/nav.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CasosExitoComponent } from './pages/casos-exito/casos-exito.component';
 import { DataTablesModule } from 'angular-datatables';
-import { ColectorSolarComponent } from './pages/termosolares/colector-solar/colector-solar.component'
+import { ColectorSolarComponent } from './pages/termosolares/colector-solar/colector-solar.component';
+import { CasosExitoAutomComponent } from './pages/casos-exito-autom/casos-exito-autom.component'
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ColectorSolarComponent } from './pages/termosolares/colector-solar/cole
     NavComponent,
     CasosExitoComponent,
     ColectorSolarComponent,
+    CasosExitoAutomComponent,
 
   ],
   imports: [
