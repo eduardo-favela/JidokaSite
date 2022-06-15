@@ -1,17 +1,37 @@
-img {
-  width: 100%;
-  height: 40%;
+@media screen and (max-width: 1220px) {
+
+  /* Pantallas pequeñas de hasta 1220px (celulares y tablets) */
+  img {
+    width: 100%;
+    height: 40vh;
+  }
+
+  .imgHeader {
+    width: 40vw;
+    height: 40vw;
+    border-radius: 50%;
+    border: solid 6px #44b84c;
+  }
+}
+
+@media screen and (min-width: 1221px) {
+
+  /* Pantallas más grandes de 1221px (computadoras, pantallas etc) */
+  img {
+    width: 100%;
+    height: 70vh;
+  }
+
+  .imgHeader {
+    width: 20vw;
+    height: 20vw;
+    border-radius: 50%;
+    border: solid 6px #44b84c;
+  }
 }
 
 h2 {
   font-family: Andale Mono, monospace;
-}
-
-.imgHeader {
-  width: 20vw;
-  height: 20vw;
-  border-radius: 50%;
-  border: solid 6px #44b84c;
 }
 
 input::-webkit-outer-spin-button,

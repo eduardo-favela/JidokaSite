@@ -2,18 +2,18 @@ h2 {
   font-family: Andale Mono, monospace;
 }
 
-.imgHeader {
-  width: 20vw;
-  height: 20vw;
-  border-radius: 50%;
-  border: solid 6px #44b84c;
-}
-
 @media screen and (max-width: 1220px) {
   /* Pantallas pequeñas de hasta 1220px (celulares y tablets) */
   .automicon {
     width: 20%;
     margin: 20px;
+  }
+
+  .imgHeader {
+    width: 40vw;
+    height: 40vw;
+    border-radius: 50%;
+    border: solid 6px #44b84c;
   }
 }
 
@@ -21,5 +21,12 @@ h2 {
   /* Pantallas más grandes de 1221px (computadoras, pantallas etc) */
   .automicon {
     width: 14.28%;
+  }
+
+  .imgHeader {
+    width: 20vw;
+    height: 20vw;
+    border-radius: 50%;
+    border: solid 6px #44b84c;
   }
 }

@@ -1,4 +1,17 @@
-img {
-  width: 100%;
-  height: 40%;
+@media screen and (max-width: 1220px) {
+
+  /* Pantallas pequeñas de hasta 1220px (celulares y tablets) */
+  img {
+    width: 100%;
+    height: 40vh;
+  }
+}
+
+@media screen and (min-width: 1221px) {
+
+  /* Pantallas más grandes de 1221px (computadoras, pantallas etc) */
+  img {
+    width: 100%;
+    height: 70vh;
+  }
 }
