@@ -26,7 +26,7 @@ export class InicioComponent implements OnInit {
 
   mapOptions: any = {
     zoom: 15,
-    lng: -103.4709074,
+    lng: -103.468714,
     lat: 25.56483,
   }
 
