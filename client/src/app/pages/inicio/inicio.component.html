@@ -193,9 +193,19 @@
           </div>
         </div>
       </div>
+      <div class="row d-flex justify-content-center pb-5">
+        <div class="col-10">
+          <agm-map [style]="{'height':'80vh'}" [latitude]="mapOptions.lat" [longitude]="mapOptions.lng" [zoom]="mapOptions.zoom">
+            <agm-marker animation="BOUNCE"
+              title="JIDOKA" [latitude]="mapOptions.lat" [longitude]="mapOptions.lng">
+            </agm-marker>
+          </agm-map>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+<app-social-media></app-social-media>
 
 <!-----------------------------------------MODAL MULTIUSOS------------------------------------------>
 <div class="modal fade" id="advertenciaModal" tabindex="-1"

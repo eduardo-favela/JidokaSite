@@ -21,7 +21,7 @@ import { ComercialTsComponent } from './pages/termosolares/comercial-ts/comercia
 import { IndustrialTsComponent } from './pages/termosolares/industrial-ts/industrial-ts.component';
 import { ReCaptchaModule } from 'angular-recaptcha3';
 import { HttpClientModule } from '@angular/common/http'
-import * as $ from 'jquery'
+import * as $ from "jquery";
 import * as bootstrap from "bootstrap";
 import { NavComponent } from './components/nav/nav.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
@@ -29,6 +29,7 @@ import { CasosExitoComponent } from './pages/casos-exito/casos-exito.component';
 import { DataTablesModule } from 'angular-datatables';
 import { ColectorSolarComponent } from './pages/termosolares/colector-solar/colector-solar.component';
 import { CasosExitoAutomComponent } from './pages/casos-exito-autom/casos-exito-autom.component'
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -48,8 +49,7 @@ import { CasosExitoAutomComponent } from './pages/casos-exito-autom/casos-exito-
     NavComponent,
     CasosExitoComponent,
     ColectorSolarComponent,
-    CasosExitoAutomComponent,
-
+    CasosExitoAutomComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +70,10 @@ import { CasosExitoAutomComponent } from './pages/casos-exito-autom/casos-exito-
     }),
     HttpClientModule,
     NgxDropzoneModule,
-    DataTablesModule
+    DataTablesModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDTcZSY425cf0V5ykD2RKCJ4qyqS6xSJf4'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -17,6 +17,13 @@ fa-icon {
     top: 0;
     margin-top:7%;
   }
+
+  .imgHeader {
+    width: 40vw;
+    height: 40vw;
+    border-radius: 50%;
+    border: solid 6px #44b84c;
+  }
 }
 
 @media screen and (min-width: 1221px) {
@@ -32,6 +39,13 @@ fa-icon {
   .carouselImg {
     height: 100vh;
     top: 0;
+  }
+
+  .imgHeader {
+    width: 20vw;
+    height: 20vw;
+    border-radius: 50%;
+    border: solid 6px #44b84c;
   }
 }
 
@@ -59,13 +73,6 @@ section.content {
 
 h2 {
   font-family: Andale Mono, monospace;
-}
-
-.imgHeader {
-  width: 20vw;
-  height: 20vw;
-  border-radius: 50%;
-  border: solid 6px #44b84c;
 }
 
 input::-webkit-outer-spin-button,

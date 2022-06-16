@@ -24,6 +24,12 @@ export class InicioComponent implements OnInit {
 
   images: any = []
 
+  mapOptions: any = {
+    zoom: 15,
+    lng: -103.4709074,
+    lat: 25.56483,
+  }
+
   solarIcon = faSolarPanel;
   termosolarIcon = faTemperatureHalf;
   automationIcon = faGears;
