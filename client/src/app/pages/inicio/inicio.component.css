@@ -19,14 +19,14 @@ fa-icon {
   } */
 
   .container-slider {
-    margin-top: 5vh;
+    padding-top: 5vh;
   }
 
   .carousel,
   .carousel-inner,
   .carousel-inner .carousel-item,
   .carouselImg {
-    margin-top: 5vh;
+    padding-top: 5vh;
     top: 0;
   }
 
