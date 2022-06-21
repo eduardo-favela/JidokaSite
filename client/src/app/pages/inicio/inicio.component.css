@@ -43,7 +43,7 @@ fa-icon {
   /* Pantallas más grandes de 1221px (computadoras, pantallas etc) */
   .container-slider {
     height: 85vh;
-    margin-top: 15vh;
+    padding-top: 15vh;
   }
 
   .carousel,
