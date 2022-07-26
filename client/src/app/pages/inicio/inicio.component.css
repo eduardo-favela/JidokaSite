@@ -17,16 +17,11 @@ fa-icon {
     top: 0;
     margin-top:7%;
   } */
-
-  .container-slider {
-    padding-top: 5vh;
-  }
-
   .carousel,
   .carousel-inner,
   .carousel-inner .carousel-item,
   .carouselImg {
-    padding-top: 5vh;
+    padding-top: 3.2vh;
     top: 0;
   }
 
